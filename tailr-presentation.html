@@ -614,30 +614,30 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Problem and Opportunity</span>
-          <h2 class="title-lg">City discovery is high-intent, but low-efficiency</h2>
+          <h2 class="title-lg">Decision fatigue in urban discovery</h2>
 
           <div class="metric-strip">
-            <div class="metric"><strong>3+</strong><span>apps users juggle before deciding where to go</span></div>
-            <div class="metric"><strong>Low</strong><span>context in generic "top places" lists</span></div>
-            <div class="metric"><strong>High</strong><span>friction for friend-trusted recommendations</span></div>
-            <div class="metric"><strong>Rising</strong><span>demand for personalized local experiences</span></div>
+            <div class="metric"><strong>27K+</strong><span>restaurants in NYC</span></div>
+            <div class="metric"><strong>10K+</strong><span>bars/nightlife venues in NYC</span></div>
+            <div class="metric"><strong>4.2</strong><span>sources checked before choosing a place</span></div>
+            <div class="metric"><strong>20+ min</strong><span>typical venue research time</span></div>
           </div>
 
           <div class="two-col">
             <div class="panel">
               <h3>Core user pain</h3>
               <ul class="list-clean">
-                <li>Users switch between maps, social feeds, and booking sites.</li>
-                <li>Discovery lacks "vibe" and neighborhood nuance.</li>
-                <li>Recommendations are hard to organize, compare, and act on.</li>
+                <li>Maps and review apps favor popularity over personal context and vibe fit.</li>
+                <li>Social apps are great for inspiration but weak for structured decision-making.</li>
+                <li>Friend recommendations are trusted but not searchable or persistent.</li>
               </ul>
             </div>
             <div class="panel">
               <h3>Tailr hypothesis</h3>
               <ul class="list-clean">
-                <li>Blend map + social + AI in one product loop.</li>
-                <li>Replace hard filters with conversational intent.</li>
-                <li>Use playful mechanics to improve retention.</li>
+                <li>Best recommendations sit at the intersection of taste, mood, and local trust.</li>
+                <li>Natural-language intent should replace brittle search-and-filter workflows.</li>
+                <li>Social check-ins and curation should feed a persistent discovery graph.</li>
               </ul>
             </div>
           </div>
@@ -663,24 +663,24 @@
                 <div class="ai-index">2</div>
                 <div>
                   <h4>Intent Parsing</h4>
-                  <p>System extracts category, vibe, and neighborhood from free text.</p>
-                  <span class="ai-tag">AI role: semantic understanding</span>
+                  <p>Client-side NLU extracts neighborhood, type, vibe, and price intent.</p>
+                  <span class="ai-tag">AI role: rule-based semantic extraction</span>
                 </div>
               </div>
               <div class="ai-stage">
                 <div class="ai-index">3</div>
                 <div>
                   <h4>Retrieval and Ranking</h4>
-                  <p>Candidate venues are searched and ranked by contextual relevance.</p>
-                  <span class="ai-tag">UI position: map pins + suggestion cards</span>
+                  <p>Server scoring blends type match, proximity, tag overlap, price, and rating.</p>
+                  <span class="ai-tag">UI position: map pins + ranked suggestion cards</span>
                 </div>
               </div>
               <div class="ai-stage">
                 <div class="ai-index">4</div>
                 <div>
                   <h4>Action Layer</h4>
-                  <p>TailrBot guides next actions like save, directions, and booking intent.</p>
-                  <span class="ai-tag">UI position: chat actions + decision flow</span>
+                  <p>Results include human-readable reasons, then route to save, navigate, or check-in.</p>
+                  <span class="ai-tag">No LLM API in hot path</span>
                 </div>
               </div>
             </div>
@@ -697,15 +697,15 @@
             <div class="ai-impact-grid">
               <div class="ai-impact-item">
                 <strong>Faster decisions</strong>
-                <p>Users move from vague intent to actionable places in fewer steps.</p>
+                <p>All 5 informal testers found at least one new venue they liked.</p>
               </div>
               <div class="ai-impact-item">
-                <strong>Higher relevance</strong>
-                <p>Neighborhood and vibe context outperform rigid filter combinations.</p>
+                <strong>Operationally efficient</strong>
+                <p>Rule-based pipeline keeps latency low and marginal cost near zero.</p>
               </div>
               <div class="ai-impact-item">
-                <strong>Personalization-ready</strong>
-                <p>Pipeline can evolve into memory and long-term preference learning.</p>
+                <strong>Trust-oriented</strong>
+                <p>Database-grounded retrieval avoids hallucinated venue recommendations.</p>
               </div>
             </div>
           </div>
@@ -715,37 +715,37 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Implementation</span>
-          <h2 class="title-lg">System design and delivery</h2>
+          <h2 class="title-lg">System design and shipped architecture</h2>
 
           <div class="two-col">
             <div class="panel">
               <h3>Technical stack</h3>
               <ul class="list-clean">
-                <li>Frontend: React + TypeScript with mobile-app interaction patterns.</li>
-                <li>Data layer: REST API for places, social graph, and interactions.</li>
-                <li>Map: Leaflet-based geospatial place visualization.</li>
-                <li>State and caching: React Query mutation/query lifecycle.</li>
-                <li>Presentation deployment: static HTML on GitHub Pages.</li>
+                <li>Frontend: React 19 + Wouter + React Query + Framer Motion + Leaflet.</li>
+                <li>Backend: Node/Express + PostgreSQL (Neon) + Drizzle + Zod schemas.</li>
+                <li>Auth and media: express-session, bcryptjs, Replit object storage.</li>
+                <li>Monorepo with shared schema layer for end-to-end type consistency.</li>
+                <li>Live deployment on Replit with mobile-first web UI.</li>
               </ul>
             </div>
             <div class="panel">
-              <h3>Delivery story</h3>
+              <h3>Core product systems</h3>
               <div class="timeline">
                 <div class="node">
-                  <h4>Define problem</h4>
-                  <p>Fragmented local discovery and weak personalization.</p>
+                  <h4>TailrBot retrieval pipeline</h4>
+                  <p>Two-stage intent extraction + server ranking with explanation templates.</p>
                 </div>
                 <div class="node">
-                  <h4>Build MVP</h4>
-                  <p>Map + social + swipe + AI assistant in one coherent flow.</p>
+                  <h4>Swipe discovery engine</h4>
+                  <p>Tinder-style deck with server-enforced daily swipe limits.</p>
                 </div>
                 <div class="node">
-                  <h4>Validate usability</h4>
-                  <p>Stress-test key journeys: discover, save, ask, act.</p>
+                  <h4>Social + gamification loop</h4>
+                  <p>Check-ins, likes, comments, points, badges, and saved lists.</p>
                 </div>
                 <div class="node">
-                  <h4>Package for demo</h4>
-                  <p>Hostable static presentation and live app walkthrough.</p>
+                  <h4>For You personalization</h4>
+                  <p>Vibe-tag matching, follow-graph amplification, and novelty filtering.</p>
                 </div>
               </div>
             </div>
@@ -756,32 +756,72 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Results and Analysis</span>
-          <h2 class="title-lg">What works well vs. what needs iteration</h2>
+          <h2 class="title-lg">Testing outcomes: wins and failure modes</h2>
 
           <div class="two-col">
             <div class="panel">
               <h3>Observed strengths</h3>
               <ul class="list-clean">
-                <li>Unified journey from "discover" to "act".</li>
-                <li>TailrBot flow feels natural for place exploration.</li>
-                <li>Swipe + social loops create a sticky product rhythm.</li>
+                <li>Top use cases (type + neighborhood + vibe) perform strongly in TailrBot.</li>
+                <li>Map + chat integration creates a differentiated spatial discovery experience.</li>
+                <li>Swipe-to-save lets users build 8-15 place lists in under 5 minutes.</li>
               </ul>
             </div>
             <div class="panel">
               <h3>Current limitations</h3>
               <ul class="list-clean">
-                <li>Cold-start still hard for new users and less-known areas.</li>
-                <li>Limited scope for broad city-to-city generalization.</li>
-                <li>Need deeper outcome metrics for recommendation quality.</li>
+                <li>Ambiguous/negation-heavy queries still break rule-based parsing.</li>
+                <li>Real-time data coverage (live hours/availability) is still incomplete.</li>
+                <li>Thin follow graph at launch causes feed cold-start issues.</li>
               </ul>
             </div>
           </div>
 
           <div class="metric-strip">
-            <div class="metric"><strong>Strong</strong><span>experience cohesion</span></div>
-            <div class="metric"><strong>Promising</strong><span>conversational discovery</span></div>
-            <div class="metric"><strong>Early</strong><span>formal evaluation depth</span></div>
-            <div class="metric"><strong>Next</strong><span>multi-city scalability</span></div>
+            <div class="metric"><strong>n=5</strong><span>informal user tests run</span></div>
+            <div class="metric"><strong>5/5</strong><span>found at least one novel venue</span></div>
+            <div class="metric"><strong>&lt;3 min</strong><span>to first exciting venue in tests</span></div>
+            <div class="metric"><strong>~$7/mo</strong><span>current operating cost on Replit</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Market and Competition</span>
+          <h2 class="title-lg">Positioning in the urban discovery stack</h2>
+
+          <div class="metric-strip">
+            <div class="metric"><strong>178M</strong><span>Yelp monthly users (2024)</span></div>
+            <div class="metric"><strong>1B+</strong><span>Google Maps monthly users</span></div>
+            <div class="metric"><strong>22-38</strong><span>core target age segment</span></div>
+            <div class="metric"><strong>Niche</strong><span>social trust + intent-native discovery</span></div>
+          </div>
+
+          <div class="two-col">
+            <div class="panel">
+              <h3>Market opportunity</h3>
+              <ul class="list-clean">
+                <li>Urban users still rely on fragmented tools and high-friction research loops.</li>
+                <li>Incumbents optimize for popularity and utility, not nuanced context fit.</li>
+                <li>Tailr focuses on the discovery-and-intent layer incumbents underserve.</li>
+                <li>Secondary value: organic visibility path for local businesses.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Competitive landscape</h3>
+              <ul class="list-clean">
+                <li><strong>Yelp:</strong> massive review base; weak social trust graph and AI chat UX.</li>
+                <li><strong>Google Maps:</strong> real-time utility; weaker vibe/occasion understanding.</li>
+                <li><strong>Foursquare/Infatuation/Fever:</strong> partial strengths, but fragmented use cases.</li>
+                <li><strong>Tailr position:</strong> social trust + conversational intent + gamified discovery.</li>
+              </ul>
+              <div class="badge-row">
+                <span class="badge">Map + chat integration</span>
+                <span class="badge">Trust-aware recommendations</span>
+                <span class="badge">Habit-forming contribution loop</span>
+              </div>
+            </div>
           </div>
         </article>
       </section>
@@ -789,7 +829,7 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Ethics and Risk</span>
-          <h2 class="title-lg">Responsible AI and platform governance</h2>
+          <h2 class="title-lg">Ethical risks and guardrails from the report</h2>
 
           <div class="risk-table">
             <div class="risk-row header">
@@ -798,28 +838,28 @@
               <div>Priority</div>
             </div>
             <div class="risk-row">
-              <div>Bias in recommendations</div>
-              <div>Popular places get over-amplified; niche communities get ignored.</div>
+              <div>Filter bubbles</div>
+              <div>Personalization may overfit to prior taste and reduce serendipity.</div>
               <div class="warn">High</div>
             </div>
             <div class="risk-row">
-              <div>AI transparency</div>
-              <div>Users may not know which suggestions are AI-ranked.</div>
+              <div>Gamification pressure</div>
+              <div>Points/swipes can push compulsive behavior if not constrained.</div>
               <div class="warn">High</div>
             </div>
             <div class="risk-row">
-              <div>Content trust</div>
-              <div>Fake reviews or coordinated manipulation can distort quality.</div>
+              <div>Data representation bias</div>
+              <div>Manually curated venue set can underrepresent neighborhoods or price tiers.</div>
               <div class="warn">High</div>
             </div>
             <div class="risk-row">
-              <div>Privacy and location data</div>
-              <div>Sensitive behavioral signals require strict access controls.</div>
+              <div>Cold-start trust quality</div>
+              <div>Thin social graph weakens recommendation confidence at launch.</div>
               <div class="warn">High</div>
             </div>
             <div class="risk-row">
-              <div>Safety moderation</div>
-              <div>User-generated media and comments need policy enforcement.</div>
+              <div>Current guardrails</div>
+              <div>"For You" toggle and 30 daily swipe cap to reduce overuse patterns.</div>
               <div class="ok">Core</div>
             </div>
           </div>
@@ -829,32 +869,32 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Roadmap</span>
-          <h2 class="title-lg">Next 12-24 months</h2>
+          <h2 class="title-lg">Roadmap from the final report</h2>
 
           <div class="timeline">
             <div class="node">
-              <h4>1) Better personalization</h4>
-              <p>Improve intent understanding and add long-term user taste memory.</p>
+              <h4>1) Hybrid AI upgrade</h4>
+              <p>Add Gemini-powered natural language explanations for richer TailrBot responses.</p>
             </div>
             <div class="node">
-              <h4>2) Stronger evaluation loop</h4>
-              <p>Run A/B tests on recommendation relevance, conversion, and retention.</p>
+              <h4>2) Real-time data completeness</h4>
+              <p>Expand Google Places integration for live hours, reservation links, and metadata.</p>
             </div>
             <div class="node">
-              <h4>3) Geographic expansion</h4>
-              <p>Scale beyond NYC with city-specific data quality and moderation controls.</p>
+              <h4>3) Personalization and graph intelligence</h4>
+              <p>Weight recommendations by follow-graph behavior and temporal/event context.</p>
             </div>
             <div class="node">
-              <h4>4) Trust and economics</h4>
-              <p>Develop credibility scoring, anti-spam systems, and sustainable unit economics.</p>
+              <h4>4) Scale path</h4>
+              <p>PWA packaging, user-submitted venues, multi-city rollout, and stronger safety evals.</p>
             </div>
           </div>
 
           <div class="badge-row" style="margin-top: 1rem;">
-            <span class="badge">Personalized city graph</span>
-            <span class="badge">Explainable recommendations</span>
-            <span class="badge">Marketplace-ready model</span>
-            <span class="badge">Safety by design</span>
+            <span class="badge">Gemini fallback for complex queries</span>
+            <span class="badge">Live venue data layer</span>
+            <span class="badge">Follow-graph-aware ranking</span>
+            <span class="badge">30-day user research program</span>
           </div>
         </article>
       </section>
@@ -864,8 +904,8 @@
           <span class="kicker">Closing</span>
           <h2 class="title-lg">Tailr in one line</h2>
           <p class="subtitle">
-            Tailr combines social context, map intelligence, and conversational AI
-            to make local discovery more personal, more actionable, and more fun.
+            Tailr combines social trust, map intelligence, and fast intent-aware AI retrieval
+            to make city discovery more relevant, lower-friction, and trustworthy.
           </p>
           <a class="big-demo-button" href="https://tailr--marcomendola9.replit.app/home" target="_blank" rel="noreferrer">
             Open Live Demo
