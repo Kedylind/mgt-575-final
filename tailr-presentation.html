@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailr | GenAI Social Media Final Presentation</title>
+    <meta
+      name="description"
+      content="Presentation deck for Tailr, built as a static HTML site for GitHub Pages."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fdfbf7;
+        --panel: #fffdf9ea;
+        --panel-solid: #fff;
+        --text: #241f1b;
+        --muted: #6e645a;
+        --accent: #9b2335;
+        --accent-dark: #7a1c2a;
+        --accent-soft: #f8edf0;
+        --line: #eadfce;
+        --chip: #f4ede4;
+        --ok: #2d8556;
+        --warn: #b86b0f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 14% 14%, rgba(155, 35, 53, 0.17), transparent 33%),
+          radial-gradient(circle at 82% 16%, rgba(122, 28, 42, 0.13), transparent 28%),
+          linear-gradient(155deg, #f8f3eb 0%, #fdfbf7 52%, #f5ede2 100%);
+      }
+
+      h1, h2, h3, h4 {
+        font-family: "Cormorant Garamond", serif;
+        line-height: 1.05;
+        margin: 0;
+      }
+
+      .deck {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: translateX(34px) scale(0.99);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        pointer-events: none;
+        padding: 4.8vh 6.5vw 8vh;
+        display: grid;
+        place-items: center;
+      }
+
+      .slide.active {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .card {
+        width: min(1180px, 100%);
+        max-height: 88vh;
+        overflow: auto;
+        padding: 2rem 2.2rem;
+        border-radius: 26px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        box-shadow: 0 18px 48px rgba(40, 22, 11, 0.11);
+        backdrop-filter: blur(8px);
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 999px;
+        border: 1px solid #dbcbb9;
+        background: #fff;
+        padding: 0.32rem 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.72rem;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .title-xl {
+        margin-top: 0.7rem;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+      }
+
+      .title-lg {
+        margin-top: 0.55rem;
+        font-size: clamp(2rem, 4.2vw, 3.35rem);
+      }
+
+      .subtitle {
+        margin-top: 0.7rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.65vw, 1.18rem);
+        max-width: 70ch;
+        line-height: 1.45;
+      }
+
+      .hero-grid {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1rem;
+      }
+
+      .video-wrap {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: #f8f1e7;
+      }
+
+      video {
+        width: 100%;
+        display: block;
+        max-height: 56vh;
+        background: #000;
+      }
+
+      .stack {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .mini {
+        border: 1px solid var(--line);
+        background: var(--panel-solid);
+        border-radius: 16px;
+        padding: 0.9rem 0.95rem;
+      }
+
+      .mini h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .mini p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.42;
+      }
+
+      .metric-strip {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.7rem;
+      }
+
+      .metric {
+        background: var(--panel-solid);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.75rem 0.8rem;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.35rem;
+        color: var(--accent);
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .two-col {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 1rem;
+        background: #fff;
+      }
+
+      .panel h3 {
+        font-size: 1.8rem;
+        margin-bottom: 0.55rem;
+      }
+
+      .list-clean {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .list-clean li {
+        margin: 0.4rem 0;
+        line-height: 1.45;
+      }
+
+      .badge-row {
+        margin-top: 0.65rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .badge {
+        border-radius: 999px;
+        background: var(--chip);
+        border: 1px solid #ebddcb;
+        padding: 0.28rem 0.58rem;
+        font-size: 0.75rem;
+        color: #655446;
+      }
+
+      .ai-layout {
+        margin-top: 0.95rem;
+        display: grid;
+        grid-template-columns: 1.25fr 0.95fr;
+        gap: 0.9rem;
+      }
+
+      .ai-pipeline {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 0.9rem;
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .ai-stage {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 0.7rem;
+        padding: 0.72rem;
+        border: 1px dashed #d9c7b4;
+        border-radius: 14px;
+        background: #fffdfb;
+        position: relative;
+      }
+
+      .ai-stage:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 20px;
+        bottom: -16px;
+        width: 2px;
+        height: 14px;
+        background: #d9c7b4;
+      }
+
+      .ai-index {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.12rem;
+      }
+
+      .ai-stage h4 {
+        font-size: 1.24rem;
+        margin-bottom: 0.14rem;
+      }
+
+      .ai-stage p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.89rem;
+        line-height: 1.35;
+      }
+
+      .ai-tag {
+        margin-top: 0.34rem;
+        display: inline-flex;
+        border-radius: 999px;
+        padding: 0.18rem 0.52rem;
+        font-size: 0.71rem;
+        font-weight: 600;
+        color: #684f43;
+        background: var(--chip);
+        border: 1px solid #eadac8;
+      }
+
+      .touch-list {
+        margin: 0.2rem 0 0;
+        padding-left: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .touch-list li {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0.55rem 0.65rem;
+        background: #fffdfa;
+      }
+
+      .touch-list strong {
+        display: block;
+        font-size: 0.9rem;
+        color: #3a2b22;
+      }
+
+      .touch-list span {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 0.08rem;
+      }
+
+      .ai-preview {
+        margin-top: 0.45rem;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        height: 378px;
+      }
+
+      .ai-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+      }
+
+      .ai-impact {
+        margin-top: 0.85rem;
+      }
+
+      .ai-impact-grid {
+        margin-top: 0.45rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.65rem;
+      }
+
+      .ai-impact-item {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 0.68rem 0.72rem;
+      }
+
+      .ai-impact-item strong {
+        color: var(--accent);
+        font-size: 0.86rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .ai-impact-item p {
+        margin: 0.26rem 0 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.35;
+      }
+
+      .timeline {
+        margin-top: 0.9rem;
+        border-left: 2px solid #dcc6b0;
+        padding-left: 1rem;
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .node {
+        position: relative;
+      }
+
+      .node::before {
+        content: "";
+        position: absolute;
+        left: -1.37rem;
+        top: 0.38rem;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .node h4 {
+        font-size: 1.25rem;
+      }
+
+      .node p {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.4;
+      }
+
+      .app-shot {
+        margin-top: 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .app-shot img {
+        width: 100%;
+        display: block;
+      }
+
+      .risk-table {
+        margin-top: 0.75rem;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+
+      .risk-row {
+        display: grid;
+        grid-template-columns: 1.3fr 2fr 0.8fr;
+      }
+
+      .risk-row > div {
+        padding: 0.6rem 0.7rem;
+        border-bottom: 1px solid #f1e8dc;
+        font-size: 0.86rem;
+      }
+
+      .risk-row.header {
+        background: #f8efe4;
+        font-weight: 700;
+        color: #5f4a3d;
+      }
+
+      .ok {
+        color: var(--ok);
+        font-weight: 700;
+      }
+
+      .warn {
+        color: var(--warn);
+        font-weight: 700;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .footer-note {
+        margin-top: 0.8rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .big-demo-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1.3rem;
+        padding: 1rem 2.2rem;
+        border-radius: 999px;
+        border: 1px solid var(--accent);
+        background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.05rem;
+        box-shadow: 0 12px 24px rgba(155, 35, 53, 0.28);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .big-demo-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 28px rgba(155, 35, 53, 0.33);
+      }
+
+      .controls {
+        position: fixed;
+        left: 50%;
+        bottom: 15px;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        z-index: 20;
+      }
+
+      .btn {
+        border: 1px solid #d8ccb9;
+        border-radius: 999px;
+        min-width: 44px;
+        height: 44px;
+        padding: 0 0.95rem;
+        background: #fff;
+        color: #514338;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .btn.primary {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .dots {
+        display: flex;
+        gap: 0.34rem;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border: 0;
+        border-radius: 50%;
+        background: #cbbcae;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .dot.active {
+        background: var(--accent);
+      }
+
+      .counter {
+        min-width: 84px;
+        text-align: center;
+        border-radius: 999px;
+        border: 1px solid #dfd0be;
+        background: #fff;
+        color: #5b4a3e;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.46rem 0.72rem;
+      }
+
+      @media (max-width: 980px) {
+        .slide {
+          padding: 2.5vh 2.5vw 7.5vh;
+        }
+
+        .card {
+          max-height: 90vh;
+          padding: 1.15rem;
+        }
+
+        .hero-grid,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .metric-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .ai-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .ai-impact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck">
+      <section class="slide active">
+        <article class="card">
+          <span class="kicker">Demo Intro</span>
+          <h1 class="title-xl">Tailr Product Intro</h1>
+          <div class="video-wrap" style="margin-top:0.8rem;">
+            <video controls preload="metadata">
+              <source src="./WhatsApp%20Video%202026-04-21%20at%203.59.57%20PM.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Problem and Opportunity</span>
+          <h2 class="title-lg">City discovery is high-intent, but low-efficiency</h2>
+
+          <div class="metric-strip">
+            <div class="metric"><strong>3+</strong><span>apps users juggle before deciding where to go</span></div>
+            <div class="metric"><strong>Low</strong><span>context in generic "top places" lists</span></div>
+            <div class="metric"><strong>High</strong><span>friction for friend-trusted recommendations</span></div>
+            <div class="metric"><strong>Rising</strong><span>demand for personalized local experiences</span></div>
+          </div>
+
+          <div class="two-col">
+            <div class="panel">
+              <h3>Core user pain</h3>
+              <ul class="list-clean">
+                <li>Users switch between maps, social feeds, and booking sites.</li>
+                <li>Discovery lacks "vibe" and neighborhood nuance.</li>
+                <li>Recommendations are hard to organize, compare, and act on.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Tailr hypothesis</h3>
+              <ul class="list-clean">
+                <li>Blend map + social + AI in one product loop.</li>
+                <li>Replace hard filters with conversational intent.</li>
+                <li>Use playful mechanics to improve retention.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Solution</span>
+          <h2 class="title-lg">What Tailr Delivers</h2>
+
+          <div class="ai-layout">
+            <div class="ai-pipeline">
+              <div class="ai-stage">
+                <div class="ai-index">1</div>
+                <div>
+                  <h4>Intent Capture</h4>
+                  <p>User asks in natural language, such as "cozy bars in Williamsburg".</p>
+                  <span class="ai-tag">UI position: top search + Ask TailrBot</span>
+                </div>
+              </div>
+              <div class="ai-stage">
+                <div class="ai-index">2</div>
+                <div>
+                  <h4>Intent Parsing</h4>
+                  <p>System extracts category, vibe, and neighborhood from free text.</p>
+                  <span class="ai-tag">AI role: semantic understanding</span>
+                </div>
+              </div>
+              <div class="ai-stage">
+                <div class="ai-index">3</div>
+                <div>
+                  <h4>Retrieval and Ranking</h4>
+                  <p>Candidate venues are searched and ranked by contextual relevance.</p>
+                  <span class="ai-tag">UI position: map pins + suggestion cards</span>
+                </div>
+              </div>
+              <div class="ai-stage">
+                <div class="ai-index">4</div>
+                <div>
+                  <h4>Action Layer</h4>
+                  <p>TailrBot guides next actions like save, directions, and booking intent.</p>
+                  <span class="ai-tag">UI position: chat actions + decision flow</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="ai-preview">
+                <img src="./tailr-app-screenshot.png" alt="Tailr app map and AI entry points" />
+              </div>
+            </div>
+          </div>
+
+          <div class="panel ai-impact">
+            <h3>User impact from this pipeline</h3>
+            <div class="ai-impact-grid">
+              <div class="ai-impact-item">
+                <strong>Faster decisions</strong>
+                <p>Users move from vague intent to actionable places in fewer steps.</p>
+              </div>
+              <div class="ai-impact-item">
+                <strong>Higher relevance</strong>
+                <p>Neighborhood and vibe context outperform rigid filter combinations.</p>
+              </div>
+              <div class="ai-impact-item">
+                <strong>Personalization-ready</strong>
+                <p>Pipeline can evolve into memory and long-term preference learning.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Implementation</span>
+          <h2 class="title-lg">System design and delivery</h2>
+
+          <div class="two-col">
+            <div class="panel">
+              <h3>Technical stack</h3>
+              <ul class="list-clean">
+                <li>Frontend: React + TypeScript with mobile-app interaction patterns.</li>
+                <li>Data layer: REST API for places, social graph, and interactions.</li>
+                <li>Map: Leaflet-based geospatial place visualization.</li>
+                <li>State and caching: React Query mutation/query lifecycle.</li>
+                <li>Presentation deployment: static HTML on GitHub Pages.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Delivery story</h3>
+              <div class="timeline">
+                <div class="node">
+                  <h4>Define problem</h4>
+                  <p>Fragmented local discovery and weak personalization.</p>
+                </div>
+                <div class="node">
+                  <h4>Build MVP</h4>
+                  <p>Map + social + swipe + AI assistant in one coherent flow.</p>
+                </div>
+                <div class="node">
+                  <h4>Validate usability</h4>
+                  <p>Stress-test key journeys: discover, save, ask, act.</p>
+                </div>
+                <div class="node">
+                  <h4>Package for demo</h4>
+                  <p>Hostable static presentation and live app walkthrough.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Results and Analysis</span>
+          <h2 class="title-lg">What works well vs. what needs iteration</h2>
+
+          <div class="two-col">
+            <div class="panel">
+              <h3>Observed strengths</h3>
+              <ul class="list-clean">
+                <li>Unified journey from "discover" to "act".</li>
+                <li>TailrBot flow feels natural for place exploration.</li>
+                <li>Swipe + social loops create a sticky product rhythm.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Current limitations</h3>
+              <ul class="list-clean">
+                <li>Cold-start still hard for new users and less-known areas.</li>
+                <li>Limited scope for broad city-to-city generalization.</li>
+                <li>Need deeper outcome metrics for recommendation quality.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="metric-strip">
+            <div class="metric"><strong>Strong</strong><span>experience cohesion</span></div>
+            <div class="metric"><strong>Promising</strong><span>conversational discovery</span></div>
+            <div class="metric"><strong>Early</strong><span>formal evaluation depth</span></div>
+            <div class="metric"><strong>Next</strong><span>multi-city scalability</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Ethics and Risk</span>
+          <h2 class="title-lg">Responsible AI and platform governance</h2>
+
+          <div class="risk-table">
+            <div class="risk-row header">
+              <div>Risk Area</div>
+              <div>What can go wrong</div>
+              <div>Priority</div>
+            </div>
+            <div class="risk-row">
+              <div>Bias in recommendations</div>
+              <div>Popular places get over-amplified; niche communities get ignored.</div>
+              <div class="warn">High</div>
+            </div>
+            <div class="risk-row">
+              <div>AI transparency</div>
+              <div>Users may not know which suggestions are AI-ranked.</div>
+              <div class="warn">High</div>
+            </div>
+            <div class="risk-row">
+              <div>Content trust</div>
+              <div>Fake reviews or coordinated manipulation can distort quality.</div>
+              <div class="warn">High</div>
+            </div>
+            <div class="risk-row">
+              <div>Privacy and location data</div>
+              <div>Sensitive behavioral signals require strict access controls.</div>
+              <div class="warn">High</div>
+            </div>
+            <div class="risk-row">
+              <div>Safety moderation</div>
+              <div>User-generated media and comments need policy enforcement.</div>
+              <div class="ok">Core</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Roadmap</span>
+          <h2 class="title-lg">Next 12-24 months</h2>
+
+          <div class="timeline">
+            <div class="node">
+              <h4>1) Better personalization</h4>
+              <p>Improve intent understanding and add long-term user taste memory.</p>
+            </div>
+            <div class="node">
+              <h4>2) Stronger evaluation loop</h4>
+              <p>Run A/B tests on recommendation relevance, conversion, and retention.</p>
+            </div>
+            <div class="node">
+              <h4>3) Geographic expansion</h4>
+              <p>Scale beyond NYC with city-specific data quality and moderation controls.</p>
+            </div>
+            <div class="node">
+              <h4>4) Trust and economics</h4>
+              <p>Develop credibility scoring, anti-spam systems, and sustainable unit economics.</p>
+            </div>
+          </div>
+
+          <div class="badge-row" style="margin-top: 1rem;">
+            <span class="badge">Personalized city graph</span>
+            <span class="badge">Explainable recommendations</span>
+            <span class="badge">Marketplace-ready model</span>
+            <span class="badge">Safety by design</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="slide">
+        <article class="card">
+          <span class="kicker">Closing</span>
+          <h2 class="title-lg">Tailr in one line</h2>
+          <p class="subtitle">
+            Tailr combines social context, map intelligence, and conversational AI
+            to make local discovery more personal, more actionable, and more fun.
+          </p>
+          <a class="big-demo-button" href="https://tailr--marcomendola9.replit.app/home" target="_blank" rel="noreferrer">
+            Open Live Demo
+          </a>
+        </article>
+      </section>
+    </main>
+
+    <div class="controls">
+      <button class="btn" id="prevBtn" aria-label="Previous slide">&#8592;</button>
+      <div class="counter" id="counter">1 / 9</div>
+      <div class="dots" id="dots"></div>
+      <button class="btn primary" id="nextBtn" aria-label="Next slide">&#8594;</button>
+    </div>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const dotsWrap = document.getElementById("dots");
+      const counter = document.getElementById("counter");
+      let current = 0;
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.className = "dot";
+        dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+        dot.addEventListener("click", () => goTo(index));
+        dotsWrap.appendChild(dot);
+      });
+
+      const dots = Array.from(document.querySelectorAll(".dot"));
+
+      function goTo(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+        dots.forEach((dot, i) => dot.classList.toggle("active", i === current));
+        counter.textContent = `${current + 1} / ${slides.length}`;
+      }
+
+      function next() {
+        goTo((current + 1) % slides.length);
+      }
+
+      function prev() {
+        goTo((current - 1 + slides.length) % slides.length);
+      }
+
+      document.getElementById("nextBtn").addEventListener("click", next);
+      document.getElementById("prevBtn").addEventListener("click", prev);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+          next();
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          prev();
+        }
+      });
+
+      goTo(0);
+    </script>
+  </body>
+</html>
