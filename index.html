@@ -500,6 +500,20 @@
         box-shadow: 0 16px 28px rgba(155, 35, 53, 0.33);
       }
 
+      .arch-board {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 0.9rem;
+      }
+
+      .arch-board svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
       .controls {
         position: fixed;
         left: 50%;
@@ -715,40 +729,80 @@
       <section class="slide">
         <article class="card">
           <span class="kicker">Implementation</span>
-          <h2 class="title-lg">System design and shipped architecture</h2>
+          <h2 class="title-lg">System Design</h2>
 
-          <div class="two-col">
-            <div class="panel">
-              <h3>Technical stack</h3>
-              <ul class="list-clean">
-                <li>Frontend: React 19 + Wouter + React Query + Framer Motion + Leaflet.</li>
-                <li>Backend: Node/Express + PostgreSQL (Neon) + Drizzle + Zod schemas.</li>
-                <li>Auth and media: express-session, bcryptjs, Replit object storage.</li>
-                <li>Monorepo with shared schema layer for end-to-end type consistency.</li>
-                <li>Live deployment on Replit with mobile-first web UI.</li>
-              </ul>
-            </div>
-            <div class="panel">
-              <h3>Core product systems</h3>
-              <div class="timeline">
-                <div class="node">
-                  <h4>TailrBot retrieval pipeline</h4>
-                  <p>Two-stage intent extraction + server ranking with explanation templates.</p>
-                </div>
-                <div class="node">
-                  <h4>Swipe discovery engine</h4>
-                  <p>Tinder-style deck with server-enforced daily swipe limits.</p>
-                </div>
-                <div class="node">
-                  <h4>Social + gamification loop</h4>
-                  <p>Check-ins, likes, comments, points, badges, and saved lists.</p>
-                </div>
-                <div class="node">
-                  <h4>For You personalization</h4>
-                  <p>Vibe-tag matching, follow-graph amplification, and novelty filtering.</p>
-                </div>
-              </div>
-            </div>
+          <div class="arch-board">
+            <svg viewBox="0 0 1120 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tailr system architecture diagram">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#9b2335"></path>
+                </marker>
+                <style>
+                  .box { fill:#fffdf9; stroke:#dac9b6; stroke-width:2; rx:14; }
+                  .title { fill:#2a231e; font: 600 16px Inter, sans-serif; }
+                  .label { fill:#4f433a; font: 500 13px Inter, sans-serif; }
+                  .line { stroke:#9b2335; stroke-width:2.5; fill:none; marker-end:url(#arrow); }
+                  .group { fill:#fbf7f1; stroke:#e6d8c8; stroke-width:2; rx:20; }
+                  .grouptitle { fill:#6a584a; font: 600 13px Inter, sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+                </style>
+              </defs>
+
+              <rect class="group" x="30" y="26" width="1060" height="118"></rect>
+              <text class="grouptitle" x="50" y="50">Client Layer</text>
+              <rect class="group" x="30" y="170" width="1060" height="250"></rect>
+              <text class="grouptitle" x="50" y="194">Server Layer (Node + Express)</text>
+              <rect class="group" x="30" y="438" width="1060" height="98"></rect>
+              <text class="grouptitle" x="50" y="462">Data and External Services</text>
+
+              <rect class="box" x="70" y="66" width="260" height="58"></rect>
+              <text class="title" x="92" y="96">User Interaction</text>
+              <text class="label" x="92" y="114">Map · Swipe · TailrBot Chat</text>
+
+              <rect class="box" x="420" y="66" width="290" height="58"></rect>
+              <text class="title" x="442" y="96">React Client</text>
+              <text class="label" x="442" y="114">UI state + query requests</text>
+
+              <rect class="box" x="740" y="66" width="300" height="58"></rect>
+              <text class="title" x="762" y="96">API Calls</text>
+              <text class="label" x="762" y="118">/api/places/search + social APIs</text>
+
+              <rect class="box" x="105" y="220" width="260" height="72"></rect>
+              <text class="title" x="126" y="255">Express Routes</text>
+              <text class="label" x="126" y="273">Request validation + auth/session</text>
+
+              <rect class="box" x="430" y="220" width="260" height="72"></rect>
+              <text class="title" x="451" y="255">Intent Extraction</text>
+              <text class="label" x="451" y="273">Neighborhood · Type · Vibe · Price</text>
+
+              <rect class="box" x="745" y="220" width="280" height="72"></rect>
+              <text class="title" x="766" y="255">Ranking Pipeline</text>
+              <text class="label" x="766" y="271">Type + proximity + tags</text>
+              <text class="label" x="766" y="285">+ price + rating</text>
+
+              <rect class="box" x="430" y="320" width="260" height="72"></rect>
+              <text class="title" x="451" y="355">Response Composer</text>
+              <text class="label" x="451" y="373">Top results + reason strings</text>
+
+              <rect class="box" x="85" y="476" width="320" height="44"></rect>
+              <text class="label" x="104" y="504">PostgreSQL (Neon) + Drizzle ORM</text>
+
+              <rect class="box" x="430" y="476" width="320" height="44"></rect>
+              <text class="label" x="448" y="504">Replit Object Storage (user photos)</text>
+
+              <rect class="box" x="770" y="476" width="270" height="44"></rect>
+              <text class="label" x="788" y="504">Google Places API (optional)</text>
+
+              <path class="line" d="M330 95 L420 95"></path>
+              <path class="line" d="M710 95 L740 95"></path>
+              <path class="line" d="M890 124 L890 220"></path>
+              <path class="line" d="M365 256 L430 256"></path>
+              <path class="line" d="M690 256 L745 256"></path>
+              <path class="line" d="M885 292 L885 320 L690 320"></path>
+              <path class="line" d="M430 356 L365 356 L365 256"></path>
+              <path class="line" d="M235 292 L235 476"></path>
+              <path class="line" d="M560 392 L560 476"></path>
+              <path class="line" d="M900 292 L900 476"></path>
+            </svg>
           </div>
         </article>
       </section>
